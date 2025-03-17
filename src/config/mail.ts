@@ -1,15 +1,12 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import { htmlTemplate } from "./htmlTemplate";
+import { EmailData } from "../types/types";
+
 
 dotenv.config();
 
-interface EmailData {
-  nombre: string;
-  apellido: string;
-  empresa?: string;
-  email: string;
-  mensaje: string;
-}
+
 
 export const sendEmail = async (data: EmailData): Promise<void> => {
 
@@ -25,16 +22,11 @@ export const sendEmail = async (data: EmailData): Promise<void> => {
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_USER, 
-    to: process.env.EMAIL_USER, 
+    from: process.env.EMAIL_USER,
+    to: process.env.EMAIL_USER,
     bcc: `${process.env.EMAI_USER_DEV1}, ${process.env.EMAI_USER_DEV2}`,
-    subject: `Nuevo para grupo 9: ${data.nombre} ${data.apellido}`, 
-    text: `
-      Nombre: ${data.nombre} ${data.apellido}
-      Empresa: ${data.empresa || "No especificada"}
-      Email: ${data.email}
-      Mensaje: ${data.mensaje}
-    `,
+    subject: `Nuevo mensaje de contacto: ${data.nombre} ${data.apellido}`,
+    html: htmlTemplate(data),
   };
 
   await transporter.sendMail(mailOptions);
