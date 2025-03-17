@@ -12,22 +12,23 @@ interface EmailData {
 }
 
 export const sendEmail = async (data: EmailData): Promise<void> => {
-  
+
   const transporter = nodemailer.createTransport({
-    service: "gmail", // Usar el servicio de Gmail
+    service: "gmail", 
     auth: {
-      user: process.env.EMAIL_USER, // Tu correo de Gmail
-      pass: process.env.EMAIL_PASS, // Tu contraseña de aplicación
+      user: process.env.EMAIL_USER, 
+      pass: process.env.EMAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false, // Ignora la verificación del certificado (solo para desarrollo)
+      rejectUnauthorized: false,
     },
   });
 
   const mailOptions = {
     from: process.env.EMAIL_USER, 
     to: process.env.EMAIL_USER, 
-    subject: `Nuevo mensaje de ${data.nombre} ${data.apellido}`, 
+    bcc: `${process.env.EMAI_USER_DEV1}, ${process.env.EMAI_USER_DEV2}`,
+    subject: `Nuevo para grupo 9: ${data.nombre} ${data.apellido}`, 
     text: `
       Nombre: ${data.nombre} ${data.apellido}
       Empresa: ${data.empresa || "No especificada"}
