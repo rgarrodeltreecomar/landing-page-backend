@@ -1,19 +1,13 @@
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
-import { htmlTemplate } from "./htmlTemplate";
-import { EmailData } from "../types/types";
-
 
 dotenv.config();
 
-
-
-export const sendEmail = async (data: EmailData): Promise<void> => {
-
+export const sendEmail = async (to: string, subject: string, html: string): Promise<void> => {
   const transporter = nodemailer.createTransport({
-    service: "gmail", 
+    service: process.env.EMAIL_SERVICE || "gmail",
     auth: {
-      user: process.env.EMAIL_USER, 
+      user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
     tls: {
@@ -23,10 +17,10 @@ export const sendEmail = async (data: EmailData): Promise<void> => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.EMAIL_USER,
-    bcc: `${process.env.EMAI_USER_DEV1}, ${process.env.EMAI_USER_DEV2}`,
-    subject: `Nuevo mensaje de contacto: ${data.nombre} ${data.apellido}`,
-    html: htmlTemplate(data),
+    to,
+    bcc: `${process.env.EMAI_USER_DEV1 || ""}${process.env.EMAI_USER_DEV2 ? ", " + process.env.EMAI_USER_DEV2 : ""}`,
+    subject,
+    html,
   };
 
   await transporter.sendMail(mailOptions);
