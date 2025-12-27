@@ -9,7 +9,7 @@ import { supabase } from "./lib/supabase";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT;
 
 const rawAllowed = process.env.ALLOWED_ORIGINS || "http://localhost:5173,https://group-nine-landing-page.vercel.app";
 const allowedOrigins = rawAllowed.split(",").map((s) => s.trim()).filter(Boolean);
@@ -118,6 +118,8 @@ app.post('/verify-otp', async (req: Request, res: Response) => {
     return res.status(500).json({ valid: false, message: 'Error al verificar OTP' });
   }
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);

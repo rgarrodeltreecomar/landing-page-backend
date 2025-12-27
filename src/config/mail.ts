@@ -1,27 +1,27 @@
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 dotenv.config();
 
-export const sendEmail = async (to: string, subject: string, html: string): Promise<void> => {
-  const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || "gmail",
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+const transporter = nodemailer.createTransport({
+  host: 'smtp.sendgrid.net',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY,
+  },
+});
 
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
+export const sendEmail = async (
+  to: string,
+  subject: string,
+  html: string
+): Promise<void> => {
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM,
     to,
-    bcc: `${process.env.EMAI_USER_DEV1 || ""}${process.env.EMAI_USER_DEV2 ? ", " + process.env.EMAI_USER_DEV2 : ""}`,
+    bcc: process.env.DEV_BCC,
     subject,
     html,
-  };
-
-  await transporter.sendMail(mailOptions);
+  });
 };

@@ -8,7 +8,7 @@ export const htmlTemplate = (data: OTPEmailData): string => {
       
       <!-- Logo -->
       <div style="margin-bottom: 24px">
-        <a href="[Website Link]" target="_blank" style="text-decoration: none; outline: none">
+        <a href="https://www.deltree.com.ar/images/logo-2.png" target="_blank" style="text-decoration: none; outline: none">
           <img
             src="cid:logo.png"
             alt="Deltree SAS"

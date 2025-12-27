@@ -19,7 +19,7 @@ COPY . .
 RUN npm run build
 
 # Expone el puerto que usa tu aplicación (3000 según tu código)
-EXPOSE 5173
+EXPOSE 5000
 
 # Comando para ejecutar la aplicación en producción
 CMD ["node", "dist/index.js"]
